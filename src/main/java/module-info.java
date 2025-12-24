@@ -8,4 +8,6 @@ module at.ac.fhcampus.simple_manager {
 
     opens at.ac.fhcampus.simple_manager to javafx.fxml;
     exports at.ac.fhcampus.simple_manager;
+    exports at.ac.fhcampus.simple_manager.Controllers;
+    opens at.ac.fhcampus.simple_manager.Controllers to javafx.fxml;
 }
