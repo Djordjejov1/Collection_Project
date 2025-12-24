@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'at.ac.fhcampus.simple_manager'
-    mainClass = 'at.ac.fhcampus.simple_manager.HelloApplication'
+    mainClass = 'at.ac.fhcampus.simple_manager.MainApp'
 }
 
 javafx {
