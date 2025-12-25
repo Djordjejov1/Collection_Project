@@ -1,5 +1,7 @@
 package at.ac.fhcampus.simple_manager.Controllers;
 
+import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
+import com.sun.tools.javac.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import at.ac.fhcampus.simple_manager.MainApp;
@@ -54,10 +56,10 @@ public class AddNewEntryController {
         String author = authorField.getText().trim();
         EntryType type = typeComboBox.getValue();
 
-        System.out.println("Saving Entry: " + title + " | " + author + " | " + type);
 
-        // TODO: später: CollectionEntry erstellen und zur Liste hinzufügen
-
+        int newID = MainApp.getEntries().size() + 1;
+        CollectionEntry newEntry = new CollectionEntry(newID , title, author, type);
+        MainApp.getEntries().add(newEntry); //fügt ganz klassich ein neuen eintrag in die allgemeine liste ein !
 
         try {
             MainApp.showMainView();

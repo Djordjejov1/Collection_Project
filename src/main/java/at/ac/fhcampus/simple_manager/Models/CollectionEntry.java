@@ -41,4 +41,11 @@ public class CollectionEntry {
     public void setType(EntryType type) {
         this.type = type;
     }
+
+    //toString für die anzeige !
+
+    @Override
+    public String toString() {
+        return title + " | " + author + " | " + type;
+    }
 }

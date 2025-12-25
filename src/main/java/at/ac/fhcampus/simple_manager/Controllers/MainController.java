@@ -36,4 +36,10 @@ public class MainController {
         System.out.println("Show/Edit clicked");
         System.out.println("Selected: " + entryListView.getSelectionModel().getSelectedItem());
     }
+
+    @FXML
+    public void initialize() {
+        // Liste aus MainApp anzeigen
+        entryListView.setItems(MainApp.getEntries());
+    }
 }

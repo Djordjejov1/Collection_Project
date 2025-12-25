@@ -1,6 +1,9 @@
 package at.ac.fhcampus.simple_manager;
 
+import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -8,6 +11,12 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     public static Stage primaryStage; // das jeweilige Fenster!
+
+
+
+    private static final ObservableList<CollectionEntry> entries = FXCollections.observableArrayList(); // mainlist foür alle Entries!
+
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -46,4 +55,9 @@ public class MainApp extends Application {
     public static Stage getPrimaryStage() {
         return primaryStage;
     }
+
+    public static ObservableList<CollectionEntry> getEntries() {
+        return entries;
+    }
+
 }
