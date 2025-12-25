@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     public static Stage primaryStage; // das jeweilige Fenster!
+    public static Stage waringStage;
     private static final ObservableList<CollectionEntry> entries = FXCollections.observableArrayList(); // mainlist foür alle Entries!
     private static CollectionEntry selectedEntry; // für den radiobutton
 
@@ -62,7 +63,6 @@ public class MainApp extends Application {
     public static ObservableList<CollectionEntry> getEntries() {
         return entries;
     }
-
 
     //Radio-Button part
     public static void setSelectedEntry(CollectionEntry entry) {

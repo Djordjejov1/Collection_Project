@@ -3,13 +3,16 @@ package at.ac.fhcampus.simple_manager.Controllers;
 import at.ac.fhcampus.simple_manager.MainApp;
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 import at.ac.fhcampus.simple_manager.Models.EntryType;
-import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class ShowEditEntryController {
 
@@ -103,13 +106,32 @@ public class ShowEditEntryController {
     }
     @FXML
     public void handleDelete(ActionEvent actionEvent) {
-        if (currentEntry == null){
-            return;
-        }
-        MainApp.getEntries().remove(currentEntry);
+        if (currentEntry == null) return;
 
         try {
-            MainApp.showMainView();
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource(
+                    "/at/ac/fhcampus/simple_manager/warning_UI.fxml"
+            ));
+
+            Scene scene = new Scene(loader.load());
+            Stage popupStage = new Stage();
+
+            popupStage.setTitle("Confirm Delete");
+            popupStage.setScene(scene);
+            popupStage.setResizable(false);
+
+            WarningController controller = loader.getController();
+            controller.setEntryInfo(currentEntry.getTitle() + " - " + currentEntry.getAuthor());
+
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.showAndWait();
+
+            if (controller.isConfirmed()) {
+                MainApp.getEntries().remove(currentEntry);
+                MainApp.setSelectedEntry(null);
+                MainApp.showMainView();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
