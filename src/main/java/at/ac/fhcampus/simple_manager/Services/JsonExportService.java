@@ -1,8 +1,8 @@
 package at.ac.fhcampus.simple_manager.Services;
 
+import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,5 +33,21 @@ public class JsonExportService {
         Files.writeString(filePath, json);
 
         return filePath;
+    }
+
+    public CollectionEntry importEntry(String fileName) throws Exception {
+
+        String projectPath = System.getProperty("user.dir");
+
+        Path importDir = Paths.get(projectPath, "imports");
+        Path filePath = importDir.resolve(fileName);
+
+        if (!Files.exists(filePath)) {
+            return null;
+        }
+
+        String json = Files.readString(filePath);
+
+        return gson.fromJson(json, CollectionEntry.class);
     }
 }

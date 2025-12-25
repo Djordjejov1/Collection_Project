@@ -1,7 +1,7 @@
 package at.ac.fhcampus.simple_manager.Controllers;
 
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
-import com.sun.tools.javac.Main;
+import at.ac.fhcampus.simple_manager.Services.JsonExportService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import at.ac.fhcampus.simple_manager.MainApp;
@@ -10,6 +10,8 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
+
 
 public class AddNewEntryController {
     @FXML
@@ -24,8 +26,12 @@ public class AddNewEntryController {
     @FXML
     private Button backButton;
 
+
     @FXML
     private Button saveButton;
+
+    @FXML private Button importButton;
+
 
     @FXML
     public void initialize() {
@@ -63,6 +69,41 @@ public class AddNewEntryController {
 
         try {
             MainApp.showMainView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleImportJson(ActionEvent event) {
+        try {
+            String fileName = importButton.getText().trim();
+
+            if (fileName.isEmpty()) {
+                System.out.println("Bitte Dateiname eingeben z.B:: entry_1.json");
+                return;
+            }
+
+            JsonExportService service = new JsonExportService();
+            CollectionEntry importedEntry = service.importEntry(fileName);
+
+            if (importedEntry == null) {
+                System.out.println("Datei nicht gefunden oder JSON ungültig!");
+                return;
+            }
+
+
+            int newId = MainApp.getEntries().size() + 1;
+            CollectionEntry newEntry = new CollectionEntry(
+                    newId,
+                    importedEntry.getTitle(),
+                    importedEntry.getAuthor(),
+                    importedEntry.getType()
+            );
+
+            MainApp.getEntries().add(newEntry);
+            MainApp.showMainView();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

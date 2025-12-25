@@ -37,10 +37,18 @@
                     </children>
                 </VBox>
 
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="30.0">
+                <VBox prefWidth="600.0" spacing="8.0">
                     <children>
-                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" prefHeight="45.0" prefWidth="280.0" text="Back" />
-                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefHeight="45.0" prefWidth="280.0" text="Save Entry" />
+                        <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Import JSON (filename)" />
+                        <TextField fx:id="importFileField" prefHeight="40.0" prefWidth="600.0" promptText="e.g. entry_1.json" />
+                    </children>
+                </VBox>
+
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20.0">
+                    <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" prefHeight="45.0" prefWidth="180.0" text="Back" />
+                        <Button fx:id="importButton" mnemonicParsing="false" onAction="#handleImportJson" prefHeight="45.0" prefWidth="180.0" text="Import JSON" />
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefHeight="45.0" prefWidth="180.0" text="Save Entry" />
                     </children>
                 </HBox>
 
