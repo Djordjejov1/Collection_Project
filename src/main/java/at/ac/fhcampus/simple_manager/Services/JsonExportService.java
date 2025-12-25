@@ -14,6 +14,7 @@ public class JsonExportService {
 
     public JsonExportService() {
         this.gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting()
                 .create();
     }

@@ -12,6 +12,12 @@ module at.ac.fhcampus.simple_manager {
     opens at.ac.fhcampus.simple_manager to javafx.fxml;
     opens at.ac.fhcampus.simple_manager.Controllers to javafx.fxml;
 
+
+    opens at.ac.fhcampus.simple_manager.Models to com.google.gson;
+
     exports at.ac.fhcampus.simple_manager;
     exports at.ac.fhcampus.simple_manager.Controllers;
+
+
+    exports at.ac.fhcampus.simple_manager.Models;
 }

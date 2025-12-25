@@ -2,16 +2,18 @@ package at.ac.fhcampus.simple_manager.Models;
 
 
 import at.ac.fhcampus.simple_manager.MainApp;
+import com.google.gson.annotations.Expose;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class CollectionEntry {
-    private int id;
-    private String title;
-    private String author;
-    private EntryType type;
+    @Expose private int id;
+    @Expose private String title;
+    @Expose private String author;
+    @Expose private EntryType type;
 
-    private final BooleanProperty selected = new SimpleBooleanProperty(false); // boolean für Radiobutto
+    private  final BooleanProperty selected = new SimpleBooleanProperty(false); // verursacht sonst fehler ohne transient
+
 
     //TODO private transient boolean selected;
 
