@@ -9,86 +9,38 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="at.ac.fhcampus.simple_manager.Controllers.AddNewEntryController">
-
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampus.simple_manager.Controllers.AddNewEntryController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="40.0"
-              prefHeight="420.0" prefWidth="600.0" spacing="18.0">
-
+        <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="40.0" prefHeight="420.0" prefWidth="600.0" spacing="18.0">
             <children>
-
-
-                <Label prefHeight="50.0"
-                       prefWidth="600.0"
-                       alignment="CENTER"
-                       styleClass="title-label"
-                       stylesheets="@css/Style.css"
-                       text="Add New Entry" />
-
+                <Label alignment="CENTER" prefHeight="50.0" prefWidth="600.0" styleClass="title-label" stylesheets="@css/Style.css" text="Add New Entry" />
                 <Separator prefHeight="5.0" prefWidth="600.0" />
 
-
                 <VBox prefWidth="600.0" spacing="8.0">
                     <children>
-                        <Label prefWidth="600.0"
-                               styleClass="section-label"
-                               stylesheets="@css/Style.css"
-                               text="Title" />
-                        <TextField fx:id="titleField"
-                                   prefHeight="40.0"
-                                   prefWidth="600.0"
-                                   promptText="Enter title..." />
+                        <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Title" />
+                        <TextField fx:id="titleField" prefHeight="40.0" prefWidth="600.0" promptText="Enter title..." />
                     </children>
                 </VBox>
 
-
                 <VBox prefWidth="600.0" spacing="8.0">
                     <children>
-                        <Label prefWidth="600.0"
-                               styleClass="section-label"
-                               stylesheets="@css/Style.css"
-                               text="Author" />
-                        <TextField fx:id="authorField"
-                                   prefHeight="40.0"
-                                   prefWidth="600.0"
-                                   promptText="Enter author..." />
+                        <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Author" />
+                        <TextField fx:id="authorField" prefHeight="40.0" prefWidth="600.0" promptText="Enter author..." />
                     </children>
                 </VBox>
 
-
                 <VBox prefWidth="600.0" spacing="8.0">
                     <children>
-                        <Label prefWidth="600.0"
-                               styleClass="section-label"
-                               stylesheets="@css/Style.css"
-                               text="Type" />
-                        <ComboBox fx:id="typeComboBox"
-                                  prefHeight="40.0"
-                                  prefWidth="600.0" />
+                        <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Type" />
+                        <ComboBox fx:id="typeComboBox" prefHeight="40.0" prefWidth="600.0" />
                     </children>
                 </VBox>
 
-
-                <HBox alignment="CENTER"
-                      prefHeight="100.0"
-                      prefWidth="600.0"
-                      spacing="30.0">
-
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="30.0">
                     <children>
-                        <Button fx:id="backButton"
-                                text="Back"
-                                prefWidth="280.0"
-                                prefHeight="45.0"
-                                onAction="#handleBack" />
-
-                        <Button fx:id="saveButton"
-                                text="Save Entry"
-                                prefWidth="280.0"
-                                prefHeight="45.0"
-                                onAction="#handleSave" />
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" prefHeight="45.0" prefWidth="280.0" text="Back" />
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefHeight="45.0" prefWidth="280.0" text="Save Entry" />
                     </children>
                 </HBox>
 

@@ -9,44 +9,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="at.ac.fhcampus.simple_manager.Controllers.MainController">
-
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampus.simple_manager.Controllers.MainController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="40.0"
-            prefHeight="420.0" prefWidth="600.0" spacing="15.0">
-
+      <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="40.0" prefHeight="420.0" prefWidth="600.0" spacing="15.0">
          <children>
-            <Label prefHeight="40.0" styleClass="title-label"
-                   stylesheets="@css/Style.css"
-                   text="Collection Manager"/>
-
-            <Separator prefHeight="5.0" prefWidth="600.0"/>
-
-            <Label prefWidth="600.0" styleClass="section-label"
-                   stylesheets="@css/Style.css"
-                   text="Search"/>
-
-            <TextField fx:id="searchField"
-                       prefHeight="35.0"
-                       prefWidth="600.0"
-                       promptText="Search..."/>
-
-            <ListView fx:id="entryListView"
-                      prefHeight="230.0"
-                      prefWidth="600.0"/>
-
+            <Label prefHeight="40.0" prefWidth="600.0" styleClass="title-label" stylesheets="@css/Style.css" text="Collection Manager" />
+            <Separator prefHeight="5.0" prefWidth="600.0" />
+            <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Search" />
+            <TextField fx:id="searchField" prefHeight="35.0" prefWidth="600.0" promptText="Search..." />
+            <ListView fx:id="entryListView" prefHeight="230.0" prefWidth="600.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20.0">
                <children>
-                  <Button fx:id="addEntryButton"
-                          text="Add New Entry"
-                          onAction="#handleAddEntry"/>
-
-                  <Button fx:id="editEntryButton"
-                          text="Show / Edit Entry"
-                          onAction="#handleShowEditEntry"/>
+                  <Button fx:id="addEntryButton" mnemonicParsing="false" onAction="#handleAddEntry" prefHeight="45.0" prefWidth="280.0" text="Add New Entry" />
+                  <Button fx:id="editEntryButton" mnemonicParsing="false" onAction="#handleShowEditEntry" prefHeight="45.0" prefWidth="280.0" text="Show / Edit Entry" />
                </children>
             </HBox>
          </children>

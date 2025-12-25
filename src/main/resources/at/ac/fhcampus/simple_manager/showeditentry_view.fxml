@@ -1,14 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="at.ac.fhcampus.simple_manager.Controllers.ShowEditEntryController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampus.simple_manager.Controllers.ShowEditEntryController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="15.0" prefHeight="480.0" prefWidth="600.0" spacing="12.0">
+            <children>
+                <Label alignment="CENTER" prefHeight="45.0" prefWidth="600.0" styleClass="title-label" stylesheets="@css/Style.css" text="Edit Entry" />
+                <Separator prefHeight="5.0" prefWidth="600.0" />
 
+                <VBox prefHeight="70.0" prefWidth="600.0" spacing="6.0">
+                    <children>
+                        <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Title" />
+                        <TextField fx:id="titleField" prefHeight="38.0" prefWidth="600.0" />
+                    </children>
+                </VBox>
+
+                <VBox prefHeight="70.0" prefWidth="600.0" spacing="6.0">
+                    <children>
+                        <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Author" />
+                        <TextField fx:id="authorField" prefHeight="38.0" prefWidth="600.0" />
+                    </children>
+                </VBox>
+
+                <VBox prefHeight="70.0" prefWidth="600.0" spacing="6.0">
+                    <children>
+                        <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Type" />
+                        <ComboBox fx:id="typeComboBox" prefHeight="38.0" prefWidth="600.0" />
+                    </children>
+                </VBox>
+
+                <VBox prefHeight="125.0" prefWidth="600.0" spacing="6.0">
+                    <children>
+                        <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="JSON Textfile Preview" />
+                        <TextArea fx:id="jsonPreviewArea" editable="false" prefHeight="95.0" prefWidth="600.0" wrapText="false" />
+                    </children>
+                </VBox>
+
+                <HBox alignment="CENTER" prefHeight="60.0" prefWidth="600.0" spacing="20.0">
+                    <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" prefHeight="40.0" prefWidth="135.0" text="Back" />
+                        <Button fx:id="updateButton" mnemonicParsing="false" onAction="#handleUpdate" prefHeight="40.0" prefWidth="135.0" text="Update Entry" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" prefHeight="40.0" prefWidth="135.0" text="Delete Entry" />
+                        <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExportJson" prefHeight="40.0" prefWidth="135.0" text="Export JSON" />
+                    </children>
+                </HBox>
+
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>

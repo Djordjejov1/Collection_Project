@@ -21,35 +21,41 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
-        primaryStage.setWidth(700);
-        primaryStage.setHeight(500);
-        primaryStage.setResizable(false); // fixiertezz größe, kann dann nicht mehr geändert werden!
+        primaryStage.setResizable(false); // fixiertezz größe von der stage bzw fenster, kann dann nicht mehr vom user geändert werden!
         showMainView();
         primaryStage.show();
     }
 
     public static void showMainView() throws Exception{
         FXMLLoader loader = new FXMLLoader(
-                MainApp.class.getResource("/at/ac/fhcampus/simple_manager/main_view.fxml")
-        );
+                MainApp.class.getResource("/at/ac/fhcampus/simple_manager/main_view.fxml"));
 
         Scene scene = new Scene(loader.load());
         primaryStage.setTitle("Scene 1");
         primaryStage.setScene(scene);
+        primaryStage.sizeToScene();
+        primaryStage.centerOnScreen();
     }
 
     public static void showAddView() throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource(
-                "/at/ac/fhcampus/simple_manager/addnewentry_view.fxml"
-        ));
+        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/at/ac/fhcampus/simple_manager/addnewentry_view.fxml"));
         Scene scene = new Scene(loader.load());
         primaryStage.setTitle("Scene 2");
         primaryStage.setScene(scene);
+        primaryStage.sizeToScene();
+        primaryStage.centerOnScreen();
     }
 
     public static void showEditEntryView() throws Exception{
-        // TODO
+        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/at/ac/fhcampus/simple_manager/showeditentry_view.fxml"));
+        Scene scene = new Scene(loader.load());
+        primaryStage.setTitle("Scene 3");
+        primaryStage.setScene(scene);
+        primaryStage.sizeToScene(); //hinzugefügt, weil die textbox den screen blöd mitnimmt. Passt die Fenstergröße automatisch nach der Scene an.
+        primaryStage.centerOnScreen();
+
+
     }
 
     public static void main(String[] args) {

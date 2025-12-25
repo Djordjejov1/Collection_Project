@@ -33,8 +33,11 @@ public class MainController {
 
     @FXML
     private void handleShowEditEntry(ActionEvent event) {
-        System.out.println("Show/Edit clicked");
-        System.out.println("Selected: " + entryListView.getSelectionModel().getSelectedItem());
+        try {
+            MainApp.showEditEntryView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
