@@ -4,23 +4,79 @@ import at.ac.fhcampus.simple_manager.MainApp;
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 
 public class MainController {
 
-    @FXML
-    private TextField searchField;
+    @FXML private TextField searchField;
+    @FXML private ListView<CollectionEntry> entryListView;
+    @FXML private Button addEntryButton;
+    @FXML private Button editEntryButton;
 
     @FXML
-    private ListView<CollectionEntry> entryListView;
+    public void initialize() {
+        entryListView.setItems(MainApp.getEntries());
+        editEntryButton.setDisable(true);
 
-    @FXML
-    private Button addEntryButton;
+        entryListView.setCellFactory(lv -> new ListCell<>() {
 
-    @FXML
-    private Button editEntryButton;
+            private final RadioButton radioButton = new RadioButton();
+            private final Label label = new Label();
+            private final HBox row = new HBox(10);
+
+            {
+                row.getChildren().addAll(radioButton, label);
+
+                radioButton.setOnAction(e -> {
+                    CollectionEntry entry = getItem();
+                    if (entry == null) return;
+
+                    if (entry.isSelected()) {
+                        deselectAll();
+                    } else {
+                        selectEntry(entry);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(CollectionEntry item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    label.setText(item.toString());
+                    radioButton.setSelected(item.isSelected());
+                    setGraphic(row);
+                }
+            }
+        });
+    }
+
+    private void selectEntry(CollectionEntry selected) {
+        for (CollectionEntry entry : MainApp.getEntries()) {
+            entry.setSelected(false);
+        }
+        selected.setSelected(true);
+
+        editEntryButton.setDisable(false);
+        MainApp.setSelectedEntry(selected);
+
+        entryListView.refresh();
+    }
+
+    private void deselectAll() {
+        for (CollectionEntry entry : MainApp.getEntries()) {
+            entry.setSelected(false);
+        }
+
+        editEntryButton.setDisable(true);
+        MainApp.setSelectedEntry(null);
+
+        entryListView.refresh();
+    }
 
     @FXML
     private void handleAddEntry(ActionEvent event) {
@@ -33,16 +89,17 @@ public class MainController {
 
     @FXML
     private void handleShowEditEntry(ActionEvent event) {
+        CollectionEntry selected = MainApp.getSelectedEntry();
+
+        if (selected == null) {
+            System.out.println("Bitte zuerst einen Eintrag auswählen!");
+            return;
+        }
+
         try {
             MainApp.showEditEntryView();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    public void initialize() {
-        // Liste aus MainApp anzeigen
-        entryListView.setItems(MainApp.getEntries());
     }
 }

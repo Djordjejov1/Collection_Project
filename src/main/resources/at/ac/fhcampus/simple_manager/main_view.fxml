@@ -13,11 +13,11 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="40.0" prefHeight="420.0" prefWidth="600.0" spacing="15.0">
          <children>
-            <Label prefHeight="40.0" prefWidth="600.0" styleClass="title-label" stylesheets="@css/Style.css" text="Collection Manager" />
+            <Label alignment="CENTER" prefHeight="40.0" prefWidth="600.0" styleClass="title-label" stylesheets="@css/Style.css" text="Collection Manager" />
             <Separator prefHeight="5.0" prefWidth="600.0" />
             <Label prefHeight="20.0" prefWidth="600.0" styleClass="section-label" stylesheets="@css/Style.css" text="Search" />
             <TextField fx:id="searchField" prefHeight="35.0" prefWidth="600.0" promptText="Search..." />
-            <ListView fx:id="entryListView" prefHeight="230.0" prefWidth="600.0" />
+            <ListView fx:id="entryListView" prefHeight="230.0" prefWidth="600.0" styleClass="entry-list" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20.0">
                <children>
                   <Button fx:id="addEntryButton" mnemonicParsing="false" onAction="#handleAddEntry" prefHeight="45.0" prefWidth="280.0" text="Add New Entry" />

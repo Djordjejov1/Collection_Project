@@ -1,11 +1,16 @@
 package at.ac.fhcampus.simple_manager.Models;
 
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class CollectionEntry {
     private int id;
     private String title;
     private String author;
     private EntryType type;
+
+    private final BooleanProperty selected = new SimpleBooleanProperty(false); // boolean für Radiobutton
 
     public CollectionEntry(int id, String title, String author, EntryType type) {
         this.id = id;
@@ -29,9 +34,6 @@ public class CollectionEntry {
     }
 
     //Setter für Instanzvariabeln:
-    public void setId(int id) {
-        this.id = id;
-    }
     public void setTitle(String title) {
         this.title = title;
     }
@@ -42,8 +44,13 @@ public class CollectionEntry {
         this.type = type;
     }
 
-    //toString für die anzeige !
 
+    //Boolean getter setter für das Binding:
+    public boolean isSelected() { return selected.get(); }
+    public void setSelected(boolean value) { selected.set(value); }
+    public BooleanProperty selectedProperty() { return selected; }
+
+    //toString für die anzeige !
     @Override
     public String toString() {
         return title + " | " + author + " | " + type;
