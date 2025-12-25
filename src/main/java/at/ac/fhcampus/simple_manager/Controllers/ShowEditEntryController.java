@@ -39,32 +39,40 @@ public class ShowEditEntryController {
         currentEntry = MainApp.getSelectedEntry(); // nimmt den ausgewählten beitrag!
 
 
-        //ist ein unnötiger code eigentlich aber dient zur sicherheit!
-        if (currentEntry == null){
-            titleField.setText("");
-            authorField.setText("");
-            jsonPreviewArea.setText("No Entry selected.");
-        }
-
         titleField.setText(currentEntry.getTitle());
         authorField.setText(currentEntry.getAuthor());
         typeComboBox.setValue(currentEntry.getType());
 
-        //TODO hier fehlt dann der json part!
+        updatePreview(); // "Json part "
+
+        updateButton.setDisable(true);
+        titleField.textProperty().addListener((obs, oldVal, newVal) -> markChanged());
+        authorField.textProperty().addListener((obs, oldVal, newVal) -> markChanged());
+        typeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> markChanged());
+    }
+
+    private void markChanged() {
         updatePreview();
+        updateButton.setDisable(false);
     }
 
 
     private void updatePreview() {
         if (currentEntry == null) return;
 
-        String preview =
-                "{\n" +
-                        "  \"id\": " + currentEntry.getId() + ",\n" +
-                        "  \"title\": \"" + currentEntry.getTitle() + "\",\n" +
-                        "  \"author\": \"" + currentEntry.getAuthor() + "\",\n" +
-                        "  \"type\": \"" + currentEntry.getType() + "\"\n" +
-                        "}";
+        String title = titleField.getText().trim();
+        String author = authorField.getText().trim();
+        EntryType type = typeComboBox.getValue();
+
+        String preview = """
+        {
+          "id": %d,
+          "title": "%s",
+          "author": "%s",
+          "type": "%s"
+        }
+        """.formatted(currentEntry.getId(), title, author, type);
+
         jsonPreviewArea.setText(preview);
     }
 
@@ -79,6 +87,19 @@ public class ShowEditEntryController {
 
     @FXML
     public void handleUpdate(ActionEvent actionEvent) {
+        if (currentEntry == null) return;
+
+        // Daten ins Model schreiben
+        currentEntry.setTitle(titleField.getText().trim());
+        currentEntry.setAuthor(authorField.getText().trim());
+        currentEntry.setType(typeComboBox.getValue());
+
+        // Zurück zur MainView
+        try {
+            MainApp.showMainView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     public void handleDelete(ActionEvent actionEvent) {
