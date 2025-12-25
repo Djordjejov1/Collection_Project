@@ -109,9 +109,7 @@ public class ShowEditEntryController {
         if (currentEntry == null) return;
 
         try {
-            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource(
-                    "/at/ac/fhcampus/simple_manager/warning_UI.fxml"
-            ));
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/at/ac/fhcampus/simple_manager/warning_UI.fxml"));
 
             Scene scene = new Scene(loader.load());
             Stage popupStage = new Stage();

@@ -2,6 +2,7 @@ package at.ac.fhcampus.simple_manager.Controllers;
 
 import at.ac.fhcampus.simple_manager.MainApp;
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,13 +15,35 @@ public class MainController {
     @FXML private Button addEntryButton;
     @FXML private Button editEntryButton;
 
+
     @FXML
     public void initialize() {
-        entryListView.setItems(MainApp.getEntries());
+
+        // FilteredList: basiert auf der Original-Liste
+        FilteredList<CollectionEntry> filteredEntries =
+                new FilteredList<>(MainApp.getEntries(), entry -> true);
+
+        // ListView zeigt die gefilterte Liste
+        entryListView.setItems(filteredEntries);
+
+        // Live-Filter: sobald man in der Searchbar tippt
+        searchField.textProperty().addListener((obs, oldText, newText) -> {
+
+            String search = newText.toLowerCase().trim();
+
+            filteredEntries.setPredicate(entry -> {
+                if (search.isEmpty()) return true;
+
+                // nur nach Title filtern
+                return entry.getTitle().toLowerCase().contains(search);
+            });
+        });
+
+        // Edit Button am Anfang deaktivieren
         editEntryButton.setDisable(true);
 
+        // CellFactory mit RadioButtons bleibt wie gehabt (dein Code)
         entryListView.setCellFactory(lv -> new ListCell<>() {
-
             private final RadioButton radioButton = new RadioButton();
             private final Label label = new Label();
             private final HBox row = new HBox(10);
