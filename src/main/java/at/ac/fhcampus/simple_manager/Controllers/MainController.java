@@ -1,5 +1,7 @@
 package at.ac.fhcampus.simple_manager.Controllers;
 
+import at.ac.fhcampus.simple_manager.MainApp;
+import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,7 +14,7 @@ public class MainController {
     private TextField searchField;
 
     @FXML
-    private ListView<String> entryListView;
+    private ListView<CollectionEntry> entryListView;
 
     @FXML
     private Button addEntryButton;
@@ -22,8 +24,11 @@ public class MainController {
 
     @FXML
     private void handleAddEntry(ActionEvent event) {
-        System.out.println("Add clicked");
-        entryListView.getItems().add("Test Entry");
+        try {
+            MainApp.showAddView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
