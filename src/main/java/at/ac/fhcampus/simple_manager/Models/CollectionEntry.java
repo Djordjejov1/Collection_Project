@@ -11,7 +11,10 @@ public class CollectionEntry {
     private String author;
     private EntryType type;
 
-    private final BooleanProperty selected = new SimpleBooleanProperty(false); // boolean für Radiobutton
+    private final BooleanProperty selected = new SimpleBooleanProperty(false); // boolean für Radiobutto
+
+    //TODO private transient boolean selected;
+
 
     public CollectionEntry(int id, String title, String author, EntryType type) {
         this.id = id;

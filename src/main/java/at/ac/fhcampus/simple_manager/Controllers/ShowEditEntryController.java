@@ -3,6 +3,7 @@ package at.ac.fhcampus.simple_manager.Controllers;
 import at.ac.fhcampus.simple_manager.MainApp;
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 import at.ac.fhcampus.simple_manager.Models.EntryType;
+import at.ac.fhcampus.simple_manager.Services.JsonExportService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.nio.file.Path;
 
 public class ShowEditEntryController {
 
@@ -136,6 +139,18 @@ public class ShowEditEntryController {
     }
     @FXML
     public void handleExportJson(ActionEvent actionEvent) {
-        //TODO : @MOMO
+        if (currentEntry == null) return;
+
+        try {
+            JsonExportService exporter = new JsonExportService();
+            Path exportedFile = exporter.exportEntry(currentEntry);
+
+            System.out.println("Exported to: " + exportedFile.toAbsolutePath());
+
+            MainApp.showMainView();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
