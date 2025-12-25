@@ -41,11 +41,15 @@ public class MainApp extends Application {
     public static void showAddView() throws Exception{
 
         FXMLLoader loader = new FXMLLoader(MainApp.class.getResource(
-                "/at/ac/fhcampus/simple_manager/AddNewEntry_view.fxml"
+                "/at/ac/fhcampus/simple_manager/addnewentry_view.fxml"
         ));
         Scene scene = new Scene(loader.load());
         primaryStage.setTitle("Scene 2");
         primaryStage.setScene(scene);
+    }
+
+    public static void showEditEntryView() throws Exception{
+        // TODO
     }
 
     public static void main(String[] args) {
