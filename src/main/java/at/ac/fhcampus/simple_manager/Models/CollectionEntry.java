@@ -1,6 +1,7 @@
 package at.ac.fhcampus.simple_manager.Models;
 
 
+import at.ac.fhcampus.simple_manager.MainApp;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -18,6 +19,20 @@ public class CollectionEntry {
         this.author = author;
         this.type = type;
     }
+
+
+    //Testdata:
+    public static void loadTestData() {
+        MainApp.getEntries().addAll(
+                new CollectionEntry(1, "The Hobbit", "J.R.R. Tolkien", EntryType.BOOK),
+                new CollectionEntry(2, "Clean Code", "Robert C. Martin", EntryType.BOOK),
+                new CollectionEntry(3, "Interstellar", "Christopher Nolan", EntryType.DVD),
+                new CollectionEntry(4, "Dark Side of the Moon", "Pink Floyd", EntryType.CD),
+                new CollectionEntry(5, "1984", "George Orwell", EntryType.BOOK),
+                new CollectionEntry(6, "Inception", "Christopher Nolan", EntryType.DVD)
+        );
+    }
+
 
     //Getter for Instanzvariabeln:
     public int getId() {

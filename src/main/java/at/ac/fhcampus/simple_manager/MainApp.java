@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 public class MainApp extends Application {
 
     public static Stage primaryStage; // das jeweilige Fenster!
@@ -20,7 +21,9 @@ public class MainApp extends Application {
         primaryStage = stage;
         primaryStage.setResizable(false); // fixiertezz größe von der stage bzw fenster, kann dann nicht mehr vom user geändert werden!
         showMainView();
+        CollectionEntry.loadTestData(); //testdata :D
         primaryStage.show();
+
     }
 
     public static void showMainView() throws Exception{
@@ -69,6 +72,7 @@ public class MainApp extends Application {
     public static CollectionEntry getSelectedEntry() {
         return selectedEntry;
     }
+
 
 
     public static void main(String[] args) {

@@ -43,7 +43,7 @@ public class ShowEditEntryController {
         authorField.setText(currentEntry.getAuthor());
         typeComboBox.setValue(currentEntry.getType());
 
-        updatePreview(); // "Json part "
+        updatePreview(); // "Json part"
 
         updateButton.setDisable(true);
         titleField.textProperty().addListener((obs, oldVal, newVal) -> markChanged());
@@ -103,6 +103,16 @@ public class ShowEditEntryController {
     }
     @FXML
     public void handleDelete(ActionEvent actionEvent) {
+        if (currentEntry == null){
+            return;
+        }
+        MainApp.getEntries().remove(currentEntry);
+
+        try {
+            MainApp.showMainView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     public void handleExportJson(ActionEvent actionEvent) {
