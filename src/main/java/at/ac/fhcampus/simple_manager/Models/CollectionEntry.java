@@ -14,10 +14,6 @@ public class CollectionEntry {
 
     private  final BooleanProperty selected = new SimpleBooleanProperty(false); // verursacht sonst fehler ohne transient
 
-
-    //TODO private transient boolean selected;
-
-
     public CollectionEntry(int id, String title, String author, EntryType type) {
         this.id = id;
         this.title = title;
