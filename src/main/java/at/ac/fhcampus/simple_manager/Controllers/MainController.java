@@ -83,7 +83,7 @@ public class MainController {
     private void applyFilter(FilteredList<CollectionEntry> filteredEntries) {
         String searchText = searchField.getText();
         EntryType selectedType = typeFilterBox.getValue();
-// hi momo war hier
+
         filteredEntries.setPredicate(entry -> {
 
             // Text-Filter (Titel ODER Autor) oder Yarrak lol gamer sibi doppelyarrak
