@@ -2,6 +2,7 @@ package at.ac.fhcampus.simple_manager.Controllers;
 
 import at.ac.fhcampus.simple_manager.MainApp;
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
+import at.ac.fhcampus.simple_manager.Models.EntryType;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,10 +15,15 @@ public class MainController {
     @FXML private ListView<CollectionEntry> entryListView;
     @FXML private Button addEntryButton;
     @FXML private Button editEntryButton;
+    @FXML private ComboBox<EntryType> typeFilterBox;
 
 
     @FXML
     public void initialize() {
+
+        typeFilterBox.setPromptText("Type");
+        typeFilterBox.getItems().addAll(EntryType.values());
+        typeFilterBox.setValue(EntryType.ALL);
 
         // FilteredList: basiert auf der Original-Liste
         FilteredList<CollectionEntry> filteredEntries =
@@ -28,15 +34,11 @@ public class MainController {
 
         // Live-Filter: sobald man in der Searchbar tippt
         searchField.textProperty().addListener((obs, oldText, newText) -> {
+            applyFilter(filteredEntries);
+        });
 
-            String search = newText.toLowerCase().trim();
-
-            filteredEntries.setPredicate(entry -> {
-                if (search.isEmpty()) return true;
-
-                // nur nach Title filtern
-                return entry.getTitle().toLowerCase().contains(search);
-            });
+        typeFilterBox.valueProperty().addListener((obs, oldType, newType) -> {
+            applyFilter(filteredEntries);
         });
 
         // Edit Button am Anfang deaktivieren
@@ -75,6 +77,32 @@ public class MainController {
                     setGraphic(row);
                 }
             }
+        });
+    }
+
+    private void applyFilter(FilteredList<CollectionEntry> filteredEntries) {
+        String searchText = searchField.getText();
+        EntryType selectedType = typeFilterBox.getValue();
+
+        filteredEntries.setPredicate(entry -> {
+
+            // Text-Filter (Titel ODER Autor)
+            boolean matchesText = true;
+            if (searchText != null && !searchText.isBlank()) {
+                String search = searchText.toLowerCase().trim();
+
+                matchesText =
+                        entry.getTitle().toLowerCase().contains(search)
+                                || entry.getAuthor().toLowerCase().contains(search);
+            }
+
+            // Type-Filter (ComboBox)
+            boolean matchesType = true;
+            if (selectedType != null && selectedType != EntryType.ALL) {
+                matchesType = entry.getType() == selectedType;
+            }
+
+            return matchesText && matchesType;
         });
     }
 

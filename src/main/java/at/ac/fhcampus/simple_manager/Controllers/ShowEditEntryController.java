@@ -39,7 +39,9 @@ public class ShowEditEntryController {
     @FXML
     public void initialize() {
         // Dropdown befüllen
-        typeComboBox.getItems().setAll(EntryType.values());
+        typeComboBox.getItems().setAll(EntryType.BOOK,
+                EntryType.CD,
+                EntryType.DVD);
         typeComboBox.getSelectionModel().selectFirst(); // Default: BOOK
 
         currentEntry = MainApp.getSelectedEntry(); // nimmt den ausgewählten beitrag!

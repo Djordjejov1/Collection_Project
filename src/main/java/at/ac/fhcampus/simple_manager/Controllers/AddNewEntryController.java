@@ -26,7 +26,6 @@ public class AddNewEntryController {
     @FXML
     private Button backButton;
 
-
     @FXML
     private Button saveButton;
 
@@ -36,7 +35,9 @@ public class AddNewEntryController {
     @FXML
     public void initialize() {
         // Dropdown befüllen
-        typeComboBox.getItems().setAll(EntryType.values());
+        typeComboBox.getItems().setAll(EntryType.BOOK,
+                EntryType.CD,
+                EntryType.DVD);
         typeComboBox.getSelectionModel().selectFirst(); // Default: BOOK
 
         // Save Button nur aktiv, wenn alle Eingaben gesetzt sind
