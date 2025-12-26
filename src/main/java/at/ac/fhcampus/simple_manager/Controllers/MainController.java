@@ -86,7 +86,7 @@ public class MainController {
 
         filteredEntries.setPredicate(entry -> {
 
-            // Text-Filter (Titel ODER Autor)
+            // Text-Filter (Titel ODER Autor) oder Yarrak
             boolean matchesText = true;
             if (searchText != null && !searchText.isBlank()) {
                 String search = searchText.toLowerCase().trim();
