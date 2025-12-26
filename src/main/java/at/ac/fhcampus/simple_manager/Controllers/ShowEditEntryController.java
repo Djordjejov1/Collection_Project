@@ -83,6 +83,7 @@ public class ShowEditEntryController {
 
         jsonPreviewArea.setText(preview);
     }
+    // hello
 
     @FXML
     public void handleBack(ActionEvent actionEvent) {
