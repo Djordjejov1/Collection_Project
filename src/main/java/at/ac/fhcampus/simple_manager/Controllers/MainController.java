@@ -86,7 +86,7 @@ public class MainController {
 
         filteredEntries.setPredicate(entry -> {
 
-            // Text-Filter (Titel ODER Autor) oder Yarrak lol gamer
+            // Text-Filter (Titel ODER Autor) oder Yarrak lol gamer sibi
             boolean matchesText = true;
             if (searchText != null && !searchText.isBlank()) {
                 String search = searchText.toLowerCase().trim();
