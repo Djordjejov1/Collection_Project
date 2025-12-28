@@ -1,6 +1,7 @@
 package at.ac.fhcampus.simple_manager;
 
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
+import at.ac.fhcampus.simple_manager.Models.EntryType;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,12 +10,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
+
 public class MainApp extends Application {
 
     public static Stage primaryStage; // das jeweilige Fenster!
     public static Stage waringStage;
     private static final ObservableList<CollectionEntry> entries = FXCollections.observableArrayList(); // mainlist foür alle Entries!
     private static CollectionEntry selectedEntry; // für den radiobutton
+
 
 
     @Override
@@ -57,6 +60,20 @@ public class MainApp extends Application {
         primaryStage.centerOnScreen();
 
 
+    }
+
+    public static boolean entryAlreadyExists(String title, String author, EntryType type, CollectionEntry ignore) {
+        return getEntries().stream().anyMatch(entry -> {
+
+            // Beim Editieren: aktuelles Entry ignorieren
+            if (ignore != null && entry == ignore) {
+                return false;
+            }
+
+            return entry.getTitle().equalsIgnoreCase(title)
+                    && entry.getAuthor().equalsIgnoreCase(author)
+                    && entry.getType() == type;
+        });
     }
 
 

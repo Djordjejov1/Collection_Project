@@ -3,11 +3,16 @@ package at.ac.fhcampus.simple_manager.Controllers;
 import at.ac.fhcampus.simple_manager.MainApp;
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 import at.ac.fhcampus.simple_manager.Models.EntryType;
+import javafx.application.Platform;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+
+
 
 public class MainController {
 
@@ -16,6 +21,7 @@ public class MainController {
     @FXML private Button addEntryButton;
     @FXML private Button editEntryButton;
     @FXML private ComboBox<EntryType> typeFilterBox;
+    @FXML private AnchorPane rootPane; // oder BorderPane / VBox aus dem FXML
 
 
     @FXML
@@ -32,6 +38,11 @@ public class MainController {
         // ListView zeigt die gefilterte Liste
         entryListView.setItems(filteredEntries);
 
+
+        typeFilterBox.setFocusTraversable(false);
+        entryListView.setFocusTraversable(false);
+        searchField.setFocusTraversable(false);
+
         // Live-Filter: sobald man in der Searchbar tippt
         searchField.textProperty().addListener((obs, oldText, newText) -> {
             applyFilter(filteredEntries);
@@ -41,8 +52,33 @@ public class MainController {
             applyFilter(filteredEntries);
         });
 
-        // Edit Button am Anfang deaktivieren
-        editEntryButton.setDisable(true);
+        // SearchField bekommt den Fokus
+        searchField.focusedProperty().addListener((obs, oldVal, focused) -> {
+            if (focused) {
+                deselectAll();   // 💥 DAS ist der Schlüssel
+            }
+
+        });
+
+        // Type-ComboBox bekommt Fokus
+        typeFilterBox.focusedProperty().addListener((obs, oldVal, focused) -> {
+            if (focused) {
+                deselectAll();
+            }
+        });
+
+        // Type-ComboBox wird per Maus geöffnet (wichtiger Sonderfall!)
+        typeFilterBox.showingProperty().addListener((obs, oldVal, showing) -> {
+            if (showing) {
+                deselectAll();
+                rootPane.requestFocus(); // Fokus sofort weg
+            }
+        });
+
+        // Edit-Button abhängig von Selection
+        CollectionEntry selected = MainApp.getSelectedEntry();
+        editEntryButton.setDisable(selected == null);
+
 
         // CellFactory mit RadioButtons bleibt wie gehabt (dein Code)
         entryListView.setCellFactory(lv -> new ListCell<>() {
@@ -62,6 +98,9 @@ public class MainController {
                     } else {
                         selectEntry(entry);
                     }
+
+                    // 🔥 Fokus sofort vom RadioButton wegziehen
+                    Platform.runLater(() -> rootPane.requestFocus());
                 });
             }
 
@@ -78,6 +117,15 @@ public class MainController {
                 }
             }
         });
+
+
+        if (selected != null) {
+            selectEntry(selected);
+            entryListView.scrollTo(selected);
+        }
+
+        Platform.runLater(() -> rootPane.requestFocus());
+
     }
 
     private void applyFilter(FilteredList<CollectionEntry> filteredEntries) {
@@ -110,11 +158,11 @@ public class MainController {
         for (CollectionEntry entry : MainApp.getEntries()) {
             entry.setSelected(false);
         }
-        selected.setSelected(true);
 
-        editEntryButton.setDisable(false);
+        selected.setSelected(true);
         MainApp.setSelectedEntry(selected);
 
+        editEntryButton.setDisable(false);
         entryListView.refresh();
     }
 
@@ -123,9 +171,8 @@ public class MainController {
             entry.setSelected(false);
         }
 
-        editEntryButton.setDisable(true);
         MainApp.setSelectedEntry(null);
-
+        editEntryButton.setDisable(true);
         entryListView.refresh();
     }
 
