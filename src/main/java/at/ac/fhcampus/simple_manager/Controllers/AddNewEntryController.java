@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
-
+import java.util.List;
 
 
 public class AddNewEntryController {
@@ -95,61 +95,99 @@ public class AddNewEntryController {
 
     @FXML
     private void handleImportJson(ActionEvent event) {
-        try { // verhindert programm abzustürzen
-            // FileChooser erstellen
+        try {
+            // 1. DATEIAUSWAHL-DIALOG
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Import JSON Entry");
-
-            // Nur JSON-Dateien erlauben bzw nur JSON kann ausgewählt werden
+            fileChooser.setTitle("Import JSON (Single or List)");
             fileChooser.getExtensionFilters().add(
                     new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json")
             );
 
-            //Optional: Startordner setzen (macht direkt dein Ordnerdrauf wo du in der Regel dein
-            //                              JSON Datei drinnen hast) in Momos Fall in "Imports"
+            // Setzt den Startordner auf /imports, falls vorhanden
             File defaultDir = new File("imports");
             if (defaultDir.exists()) {
                 fileChooser.setInitialDirectory(defaultDir);
             }
 
-            // Finder öffnen bzw Ordner
+            // Wir nutzen importButton statt stage direkt
             Stage stage = (Stage) importButton.getScene().getWindow();
             File selectedFile = fileChooser.showOpenDialog(stage);
 
-            // null ist, wenn User auf Abbrechen klickt
-            if (selectedFile == null) {
+            if (selectedFile == null) return; // Abbrechen, falls der User das Fenster schließt
+
+            // 2. DATEN LADEN
+            // Nutzt die Methode aus JsonExportService.java
+            JsonExportService service = new JsonExportService();
+            List<CollectionEntry> importedEntries = service.importAny(selectedFile.getAbsolutePath());
+
+            if (importedEntries == null || importedEntries.isEmpty()) {
+                showError("Invalid File", "The JSON file is empty or formatted incorrectly.");
                 return;
             }
 
-            JsonExportService service = new JsonExportService(); // JSON-Service verwenden
-            CollectionEntry importedEntry = service.importEntry(selectedFile.getAbsolutePath());
+            // 3. LOGIK-ENTSCHEIDUNG: Einzeln oder Liste?
 
+            // FALL A: EINZELNER EINTRAG
+            if (importedEntries.size() == 1) {
+                CollectionEntry entry = (CollectionEntry) ((List<?>) importedEntries).get(0);
 
-            if (importedEntry == null) { // Fehlerhafte JSON abfangen
-                System.out.println("JSON ungültig oder konnte nicht gelesen werden");
-                return;
+                // Schaut ob die File leer ist
+                if (isInvalid(entry)) {
+                    showError("Import Denied", "The Entry in the file contains empty fields.");
+                    return;
+                }
+                // Erst prüfen, ob dieser Eintrag schon existiert
+                if (MainApp.entryAlreadyExists(entry.getTitle(), entry.getAuthor(), entry.getType(), null)) {
+                    showDuplicateAlert();
+                } else {
+                    // Felder im GUI-Formular befüllen (User muss danach noch auf "Save" klicken)
+                    importFileField.setText(selectedFile.getName());
+                    titleField.setText(entry.getTitle());
+                    authorField.setText(entry.getAuthor());
+                    typeComboBox.setValue(entry.getType());
+                }
             }
+            // FALL B: EINE LISTE (MEHRERE EINTRÄGE)
+            else {
+                int addedCount = 0;
+                int duplicateCount = 0;
+                int invalidCount = 0;
 
+                for (CollectionEntry entry : importedEntries) {
+                    // Duplikat-Check für jeden einzelnen Eintrag in der Liste
+                    // skipt leere Stellen in der Liste
+                    if (isInvalid(entry)) {
+                        invalidCount++;
+                        continue;
+                    }
+                    if (MainApp.entryAlreadyExists(entry.getTitle(), entry.getAuthor(), entry.getType(), null)) {
+                        duplicateCount++;
+                    } else {
+                        // Falls neu: ID generieren (aktuelle Größe + 1)
+                        int nextID = MainApp.getEntries().size() + 1;
+                        // Neues Objekt erstellen und zur globalen Liste in MainApp hinzufügen
+                        CollectionEntry newEntry = new CollectionEntry(nextID, entry.getTitle(), entry.getAuthor(), entry.getType());
+                        MainApp.getEntries().add(newEntry);
+                        addedCount++;
+                    }
+                }
 
-            // 🔴 DUPLIKAT PRÜFEN (JSON)
-            if (MainApp.entryAlreadyExists(importedEntry.getTitle(), importedEntry.getAuthor(), importedEntry.getType(), null)) {   // ← kein Ignore nötig beim Add
-                showDuplicateAlert();
-                return;
+                // 4. FEEDBACK AN DEN USER
+                Alert info = new Alert(Alert.AlertType.INFORMATION);
+                info.setTitle("Import Completed");
+                info.setHeaderText(addedCount + " Entries Successfully Added");
+                info.setContentText("New entries: " + addedCount + "\nSkipped (duplicates): " + duplicateCount);
+                info.showAndWait();
+
+                // Falls Einträge importiert wurden, direkt zur Hauptübersicht wechseln
+                if (addedCount > 0) {MainApp.showMainView();
+                }
             }
-
-            importFileField.setText(selectedFile.getName()); // Dateiname auf Textfield anzeigen
-
-            // Felder automatisch setzen
-            titleField.setText(importedEntry.getTitle());
-            authorField.setText(importedEntry.getAuthor());
-            typeComboBox.setValue(importedEntry.getType());
-
         } catch (Exception e) {
-            showError("Something Went Wrong", "An unexpected error occurred while importing the file.");
-            e.printStackTrace(); // falls irgendwas passiert kann man da sehen was schief
-        }                       // gelaufen ist
+            showError("Import Error", "Please check the JSON format of your file.");
+            e.printStackTrace();
+        }
     }
-
 
 
     private void showDuplicateAlert() {
@@ -169,5 +207,12 @@ public class AddNewEntryController {
         alert.setHeaderText(title);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // Helfer-Methode in dem man Entries nach Inhalt checken kann
+    private boolean isInvalid(CollectionEntry entry) {
+        return entry.getTitle() == null || entry.getTitle().isBlank() ||
+                entry.getAuthor() == null || entry.getAuthor().isBlank() ||
+                entry.getType() == null;
     }
 }

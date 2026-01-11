@@ -3,10 +3,14 @@ package at.ac.fhcampus.simple_manager.Services;
 import at.ac.fhcampus.simple_manager.Models.CollectionEntry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonExportService {
 
@@ -35,19 +39,32 @@ public class JsonExportService {
         return filePath;
     }
 
-    public CollectionEntry importEntry(String fileName) throws Exception {
+    public List<CollectionEntry> importAny(String absolutePath) throws Exception {
+        Path filePath = Paths.get(absolutePath);
+        // Falls die Datei nicht existiert, geben wir eine leere Liste zurück (verhindert Absturz)
+        if (!Files.exists(filePath)) return new ArrayList<>();
 
-        String projectPath = System.getProperty("user.dir");
+        // Die Datei wird eingelesen und Leerzeichen am Anfang/Ende werden entfernt (.trim())
+        String json = Files.readString(filePath).trim();
+        List<CollectionEntry> resultList = new ArrayList<>();
 
-        Path importDir = Paths.get(projectPath, "imports");
-        Path filePath = importDir.resolve(fileName);
+        // PRÜFUNG: Startet der Text mit '[', ist es ein JSON-Array (Liste)
+        if (json.startsWith("[")) {
+            // TypeToken wird benötigt, da Java zur Laufzeit die Typen von Listen "vergisst" (Type Erasure)
+            // Wir sagen GSON hiermit explizit: "Erwarte eine ArrayList voll mit CollectionEntry-Objekten"
+            Type listType = new TypeToken<ArrayList<CollectionEntry>>(){}.getType();
+            resultList = gson.fromJson(json, listType);
 
-        if (!Files.exists(filePath)) {
-            return null;
+            // PRÜFUNG: Startet der Text mit '{', ist es ein einzelnes JSON-Objekt
+        } else if (json.startsWith("{")) {
+            // GSON wandelt den Text in ein einzelnes Objekt um
+            CollectionEntry singleEntry = gson.fromJson(json, CollectionEntry.class);
+            if (singleEntry != null) {
+                // Wir packen das Einzelobjekt in eine Liste, damit der Rückgabetyp einheitlich bleibt
+                resultList.add(singleEntry);
+            }
         }
 
-        String json = Files.readString(filePath);
-
-        return gson.fromJson(json, CollectionEntry.class);
+        return resultList;
     }
 }
