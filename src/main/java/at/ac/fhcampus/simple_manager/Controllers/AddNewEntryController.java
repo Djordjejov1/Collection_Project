@@ -76,7 +76,7 @@ public class AddNewEntryController {
         String author = authorField.getText().trim();
         EntryType type = typeComboBox.getValue();
 
-        // 🔴 DUPLIKAT PRÜFEN
+        // DUPLIKAT PRÜFEN
         if (MainApp.entryAlreadyExists(title, author, type,null)) {
             showDuplicateAlert();
             return;

@@ -55,7 +55,7 @@ public class MainController {
         // SearchField bekommt den Fokus
         searchField.focusedProperty().addListener((obs, oldVal, focused) -> {
             if (focused) {
-                deselectAll();   // 💥 DAS ist der Schlüssel
+                deselectAll();   // <-- DAS ist der Schlüssel
             }
 
         });
@@ -80,7 +80,7 @@ public class MainController {
         editEntryButton.setDisable(selected == null);
 
 
-        // CellFactory mit RadioButtons bleibt wie gehabt (dein Code)
+        // CellFactory mit RadioButtons
         entryListView.setCellFactory(lv -> new ListCell<>() {
             private final RadioButton radioButton = new RadioButton();
             private final Label label = new Label();
@@ -99,7 +99,7 @@ public class MainController {
                         selectEntry(entry);
                     }
 
-                    // 🔥 Fokus sofort vom RadioButton wegziehen
+                    // Fokus sofort vom RadioButton wegziehen
                     Platform.runLater(() -> rootPane.requestFocus());
                 });
             }
@@ -134,7 +134,7 @@ public class MainController {
 
         filteredEntries.setPredicate(entry -> {
 
-            // Text-Filter (Titel ODER Autor) oder Yarrak lol gamer sibi doppelyarrak
+            // Text-Filter (Titel ODER Autor)
             boolean matchesText = true;
             if (searchText != null && !searchText.isBlank()) {
                 String search = searchText.toLowerCase().trim();
